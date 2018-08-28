@@ -33,8 +33,8 @@ import TodoList from './TodoComponents/TodoList';
 
 
 class App extends React.Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       list: todoListArr,
       inputValue: '',
@@ -83,8 +83,7 @@ class App extends React.Component {
         {/*input will be shown here*/}
         {/*add button view will be shown here*/}
         {/*clear button will be shown here*/}
-        <TodoList taskList={this.state.list}
-        handleToggleComplet={this.state.toggleCompletedTodos}/>
+        <TodoList />
         <TodoForm 
           inputValue={this.state.inputValue}
           updateInputValue={this.updateInputValue}

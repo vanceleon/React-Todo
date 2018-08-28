@@ -9,13 +9,12 @@ const Todo = (props) => {
     
     return (
 
-        <div 
-        className={props.completed ? "completed" : null } onClick={() => props.handleToggleComplete}>
-        
-        {props.todo}
+        <div
+            style={props.todo.complete ? {textDecoration: 'line-through'} : null} onclick={() => props.handlesToggleComplete(props.todo.id)}>
+            {props.todo.task}
        
         </div> 
-    )
+    );
 };
 
 export default Todo;
