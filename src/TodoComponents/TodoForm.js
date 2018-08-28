@@ -3,18 +3,22 @@
 //Once a todo is submitted, the Todo List should re-render and show the added todo.
 import React from "react";
 
-const TodoForm = ({ inputValue, updateInputValue, submitNewTask }) => {
+
+
+const TodoForm = props => {
   return (
     <div>
       <form>
         <input
+          onChange={props.handleTodoChange}
           placeholder="Enter Todos.."
-          value={inputValue}
-          onChange={updateInputValue}
+          type="text"
+          name="todo"
+          value={props.value}
         />
 
-        <button onClick={submitNewTask}>Add Todo</button>
-        <button>Clear Completed</button>
+        <button onClick={props.handleAddTodo}>Add Todo</button>
+        <button onClick={props.handleClearTodos}>Clear Completed</button>
       </form>
     </div>
   );

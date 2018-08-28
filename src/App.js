@@ -2,100 +2,82 @@
 //All of your application data will be stored here on <App />.
 // All of your handler functions should live here on <App />.
 
-
-import React from 'react';
-import TodoForm from './TodoComponents/TodoForm';
-import TodoList from './TodoComponents/TodoList';
-  // you will need a place to store your state in this component.
-  // design `App` to be the parent component of your application.
-  // this component is going to take care of state, and any change handlers you need to work with your state
-
-
-  const todoListArr = [
-    { task: 'Organize Garage',
-      id: new Date(),
-      completed: false
-    },
-    {
-      task: 'Bake Cookies',
-      id: new Date(),
-      completed: false
-    },
-  ];
-
-
-  // const task = props => {
-  //   const{task, id, completed} = props.taskProp;
-  //   return (
-  //     <div>task: {task}</div>
-  //   );
-  // };
-
+import React from "react";
+import TodoForm from "./TodoComponents/TodoForm";
+import TodoList from "./TodoComponents/TodoList";
+// you will need a place to store your state in this component.
+// design `App` to be the parent component of your application.
+// this component is going to take care of state, and any change handlers you need to work with your state
 
 class App extends React.Component {
-  constructor(props){
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      list: todoListArr,
-      inputValue: '',
+      todos: [
+        {
+          task: "Organize Garage",
+          id: new Date(),
+          completed: false
+        },
+        {
+          task: "Bake Cookies",
+          id: new Date(),
+          completed: false
+        }
+      ],
+      todo: ""
     };
-  }  
-
-    //functions below
-  
-
-  updateInputValue = event => {
-    // console.log(event.target.value);
-    const { value } = event.target 
-    this.setState({inputValue: value} );
-
   }
 
-  submitNewTask = event => {
-    event.preventDefault();
-    
-    this.setState(prevState => ({
-      list: prevState.list.concat({
-        id: new Date(),
-        task: prevState.inputValue,
-        completed:false,
-      }),
-      inputValue: ""
-    }));
+  changeTodo = event => {
+    // console.log(event.target.value);
+    this.setState({ [event.target.name]: event.target.value });
   };
 
+  addTodo = event => {
+    event.preventDefault();
+    const todos = this.state.todos.slice();
+    todos.push({ task: this.state.todo, completed: false, id: Date.now() });
+    this.setState({ todos, todo: "" });
+  };
 
+  toggleTodoComplete = id => {
+    let todos = this.state.todos.slice();
+    todos = todos.map(todo => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed;
+        return todo;
+      } else {
+        return todo;
+      }
+    });
+    this.setState({ todos });
+  };
 
-  toggleCompletedTodos = () => {
-    console.log("I am clicking");
-    
-    
-  }
-
-
+  clearCompletedTodos = event => {
+    event.preventDefault();
+    let todos = this.state.todos.slice();
+    todos = todos.filter(todo => !todo.completed);
+    this.setState({ todos: todos });
+  };
 
   render() {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
-
-        {/*todo view will be shown here*/}
-        {/*input will be shown here*/}
-        {/*add button view will be shown here*/}
-        {/*clear button will be shown here*/}
-        <TodoList />
-        <TodoForm 
-          inputValue={this.state.inputValue}
-          updateInputValue={this.updateInputValue}
-          submitNewTask={this.submitNewTask}
-          />
+        <TodoList
+          handleToggleComplete={this.toggleTodoComplete}
+          todos={this.state.todos}
+        />
+        <TodoForm
+          value={this.state.todo}
+          handleTodoChange={this.changeTodo}
+          handleAddTodo={this.addTodo}
+          handleClearTodos={this.clearCompletedTodos}
+        />
       </div>
     );
   }
 }
-
-
-
-//creating pull request
 
 export default App;
